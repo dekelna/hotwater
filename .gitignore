@@ -1,0 +1,10 @@
+gen/
+bin/
+*.apk
+*.class
+*.dex
+*.ap_
+.*.swp
+*.pyc
+local.properties
+
