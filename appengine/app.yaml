@@ -1,0 +1,13 @@
+application: hot-water
+version: 2
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /ddwrt
+  static_dir: ddwrt
+
+- url: /.*
+  script: hot-water.app
+  

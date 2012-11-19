@@ -1,0 +1,47 @@
+LOG=/tmp/dekel/log
+LOCK=/tmp/dekel/first_run_lock
+
+ls=`ls $LOCK`
+if [ "$ls" == "" ]; then
+        echo 'booting' 
+        echo 'booting' >> $LOG
+        echo  > $LOCK
+else        
+        echo "*"
+        exit
+fi
+
+state="off"
+gpio enable 0
+
+while :
+do
+        echo -ne '.' >> $LOG
+        rm simple
+		echo -ne '.' >> $LOG
+        wget http://hot-water.appspot.com/simple -T 5 -t 5 > /dev/null 2>&1
+		echo -ne '.' >> $LOG
+        newmode=`cat simple`
+		echo -ne '.' >> $LOG
+        if [ "$newmode" != "$state" ]; then
+				echo 'Status changed!' >> $LOG
+                state=$newmode
+                if [ "$state" == "off" ]; then
+                        echo 'Turning off!'
+                        echo 'Turning off!' >> $LOG
+                        gpio enable 0
+						echo 'Turned off!' >> $LOG
+
+                elif [ "$state" == "on" ]; then
+                        echo 'Turning on!'
+                        echo 'Turning on!' >> $LOG
+                        gpio disable 0
+						echo 'Turned on!' >> $LOG
+
+                else
+                        echo 'WTF?'
+                        echo 'WTF?' >> $LOG
+                fi
+        fi
+        sleep 1
+done

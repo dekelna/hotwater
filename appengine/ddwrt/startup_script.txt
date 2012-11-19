@@ -1,0 +1,16 @@
+## startup script
+gpio enable 0
+mkdir /tmp/dekel
+mkdir /tmp/etc/config/
+echo "cd /tmp/dekel"  > /tmp/etc/config/getboiler.wanup
+echo "wget http://hot-water.appspot.com/ddwrt/boiler.txt" >> /tmp/etc/config/getboiler.wanup
+echo "tr -d '\015' < /tmp/dekel/boiler.txt > /tmp/dekel/boiler.sh" >> /tmp/etc/config/getboiler.wanup
+echo "wget http://hot-water.appspot.com/ddwrt/killer.txt" >> /tmp/etc/config/getboiler.wanup
+echo "tr -d '\015' < /tmp/dekel/killer.txt > /tmp/dekel/killer.sh" >> /tmp/etc/config/getboiler.wanup
+chmod 777 /tmp/etc/config/getboiler.wanup
+
+# TODO password?
+# TODO move everything to cron? might resolve issues
+
+## cron
+* * * * * root /bin/sh /tmp/dekel/boiler.sh

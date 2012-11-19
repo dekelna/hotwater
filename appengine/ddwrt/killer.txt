@@ -1,0 +1,5 @@
+LOG=/tmp/dekel/kill_log
+PID=`ps | grep 'wget http://hot-water.appspot.com/simple' | grep -v grep | awk '{print $1}'`
+echo 'KILLING' >> $LOG
+echo $PID >> $LOG
+kill $PID >> $LOG
